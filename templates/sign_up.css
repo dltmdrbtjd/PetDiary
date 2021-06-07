@@ -18,7 +18,6 @@ form {
 	overflow: auto;
 	border-bottom: 1px solid gray;
 }
-
 .top > span {
 	padding: 2%;
 }
@@ -39,6 +38,7 @@ fieldset {
 
 fieldset > .section {
 	margin: 0px auto;
+	width: 30vw;
 }
 
 legend {
@@ -46,6 +46,7 @@ legend {
 }
 
 .check {
+	vertical-align: top;
 	font-size: large;
 	color: green;
 	visibility: hidden;
@@ -62,7 +63,6 @@ legend {
 	border: 1px solid gray;
 	text-align: center;
 }
-
 .input-rules {
 	color: gray;
 }
@@ -71,7 +71,6 @@ legend {
 	list-style: none;
 	color: red;
 }
-
 .submit-btn {
 	//margin: 0 0 0 15px;
 	background: gray;
