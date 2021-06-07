@@ -1,9 +1,10 @@
 * {
 	margin: 0;
+	font-family: 'Noto Sans KR';
 }
 main {
-	width: 60vh;
-	height: 40vh;
+	width: 50vw;
+	height: 50vh;
 	margin: auto;
 	padding: 30vh 0 30vh 0;
 }
@@ -27,4 +28,47 @@ form {
 
 .return {
 	float: right;
+}
+
+fieldset {
+	border: none;
+	margin: 10%;
+}
+
+legend {
+	margin: 0 auto;
+}
+
+.check {
+	font-size: large;
+	color: green;
+	visibility: hidden;
+}
+.section > div {
+	display: inline-block;
+}
+.section-content > label {
+	display: block;
+}
+
+#duplicate-check {
+	background: white;
+	border: 1px solid gray;
+	text-align: center;
+}
+
+.input-rules {
+	color: gray;
+}
+
+.check-list > li {
+	list-style: none;
+	color: red;
+}
+
+.submit-btn {
+	//margin: 0 0 0 15px;
+	background: gray;
+	border: 1px solid gray;
+	text-align: center;
 }
