@@ -33,6 +33,12 @@ form {
 fieldset {
 	border: none;
 	margin: 10%;
+	display: flex;
+	flex-direction: column;
+}
+
+fieldset > .section {
+	margin: 0px auto;
 }
 
 legend {
@@ -71,4 +77,6 @@ legend {
 	background: gray;
 	border: 1px solid gray;
 	text-align: center;
+	margin: 0px auto;
+	display: block;
 }
