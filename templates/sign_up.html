@@ -35,6 +35,24 @@
 	</style>
 </head>
 <body>
+	<script type="text/javascript">
+		async function signUp() {
+			const data = (new FormData(document.forms[0]))
+			return fetch('/api/sign_up', {
+				method:'POST',
+				body:data
+			}).then(response => {
+				console.log(response)
+				return response.json()
+			})
+			.then(result => {
+				if (result.success) {
+					window.location.href = './login'
+				}
+				else alert('중복된 아이디입니다. 다시 작성해주세요')
+			})
+		}
+	</script>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav mr-auto">
@@ -47,7 +65,7 @@
 			</ul>
 		</div>
 	</nav>
-	<form id="login-form" action="/api/sign_up" method="POST">
+	<form id="login-form" action="#" onsubmit="signUp();return false" method="POST">
 		<div class="mb-3">
 			<label class="form-label" for="user-id">아이디</label>
 			<input type="text" class="form-control" name="user-id" placeholder="아이디를 입력해주세요.">
