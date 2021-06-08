@@ -44,5 +44,11 @@ def api_login():
 def sign_up():
 	return render_template('sign_up.html')
 
+@app.route('/api/sing_up', methods=['POST'])
+def api_sign_up():
+	print('test')
+	return
+
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
