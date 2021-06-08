@@ -46,7 +46,7 @@
                 success: function (response) {
                     if (response['result'] == 'success') {
                         $.cookie('mytoken', response['token']);
-                        window.location.href = '/'
+                        window.location.href = '/main'
                     } else {
                         alert(response['msg'])
                     }
