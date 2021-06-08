@@ -1,5 +1,5 @@
 (function() {
-	const $password = document.getElementsByName('password')[0]
+	const $password = document.getElementsByName('user-password')[0]
 
 	function checkPassword() {
 		const password = $password.value
