@@ -1,5 +1,6 @@
 (function() {
-	const $password = document.getElementById('password')
+	const $password = document.getElementsByName('user-password')[0]
+	const $doubleCheck = document.getElementByName('double-check')[0]
 
 	function checkPassword() {
 		const password = $password.value
@@ -12,7 +13,7 @@
 		})
 
 		// 1. At least 8 letters
-		if (password.length >= 8) {
+		if (/.{8}/.test(password)) {
 			$checkList[0].style.color = 'green'
 			$checkList[0].firstChild.textContent = '✔'
 		}
@@ -43,5 +44,7 @@
 			document.querySelector('#password-section > .check').style.visibility = 'visible'
 		}
 	}
+
 	$password.addEventListener('input', checkPassword)
+	$doubleCheck.addEventListener('input', doubleCheckPassword)
 })()
