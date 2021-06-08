@@ -1,8 +1,14 @@
 (function() {
-
+	const valid = Array(3).fill(false)
+	const $form = document.getElementById('login-form')
+	const $id = document.getElementsByName('user-id')[0]
 	const $password = document.getElementsByName('user-password')[0]
 	const $doubleCheck = document.getElementsByName('double-check')[0]
 
+	function checkId() {
+		const id = $id.value
+		valid[0] = !/\s/.test(id) && id >= 8 ? true : false
+	}
 	function checkPassword() {
 		const password = $password.value
 		const $checkList = document.querySelectorAll('.check-list > li')
@@ -45,16 +51,17 @@
 			$checkList[5].firstChild.textContent = '✔'
 		}
 
-
-		// Check wether valid
-		if([...$checkList].every($li => $li.firstChild.textContent === '✔')) {
-			document.querySelector('#password-section > .check').style.visibility = 'visible'
-		}
+		valid[1] = [...$checkList].every($li => $li.firstChild.textContent === '✔') ? true : false
 	}
 	function doubleCheckPassword() {
-		if ($password.value === $doubleCheck.value)
+		valid[2] = $password.value === $doubleCheck.value ? true : false
+	}
+	function validate() {
+		if (valid.every(e => e)) alert('hi')
 	}
 	checkPassword()
+	$id.addEventListener('input', checkId)
 	$password.addEventListener('input', checkPassword)
 	$doubleCheck.addEventListener('input', doubleCheckPassword)
+
 })()
