@@ -40,7 +40,7 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-@app.route('/sing_up')
+@app.route('/sign_up')
 def sign_up():
 	return render_template('sign_up.html')
 
