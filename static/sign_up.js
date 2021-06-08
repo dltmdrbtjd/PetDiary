@@ -7,7 +7,7 @@
 
 	function checkId() {
 		const id = $id.value
-		valid[0] = !/\s/.test(id) && id >= 8 ? true : false
+		valid[0] = /\s/.test(id) || id < 8 ? false : true
 	}
 	function checkPassword() {
 		const password = $password.value
@@ -57,11 +57,16 @@
 		valid[2] = $password.value === $doubleCheck.value ? true : false
 	}
 	function validate() {
-		if (valid.every(e => e)) alert('hi')
+		$button = document.getElementsByClassName('btn-primary')[0]
+		$button.disabled = valid.every(e => e) ? false : true
 	}
 	checkPassword()
 	$id.addEventListener('input', checkId)
 	$password.addEventListener('input', checkPassword)
 	$doubleCheck.addEventListener('input', doubleCheckPassword)
-
+//aA123!@#
+	$inputList = document.querySelectorAll('.mb-3 input')
+	$inputList.forEach($input => {
+		$input.addEventListener('input', validate)
+	})
 })()
