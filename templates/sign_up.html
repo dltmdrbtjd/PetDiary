@@ -48,7 +48,10 @@
 				if (result.success) {
 					window.location.href = './login'
 				}
-				else alert('중복된 아이디입니다. 다시 작성해주세요')
+				else {
+					alert('중복된 아이디입니다. 다시 작성해주세요')
+					window.location.reload()
+				}
 			})
 		}
 	</script>
