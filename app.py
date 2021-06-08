@@ -1,5 +1,5 @@
 # 안녕안녕!
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 import jwt
 import hashlib
@@ -11,8 +11,18 @@ db = client.dbpetdiary
 
 SECRET_KEY = 'PETDIARY'
 
+@ app.route('/')
+def home():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return redirect("reviews")
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", token_expired="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login"))
 
-@app.route('/')
+@app.route('/main')
 def main():
     # 전부 삭제
     db.review.delete_many({})
@@ -30,7 +40,8 @@ def main():
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    token_expired = request.args.get("token_expired")
+    return render_template('login.html', token_expired=token_expired)
 
 
 @app.route('/api/login', methods=['POST'])
