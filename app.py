@@ -27,7 +27,7 @@ def api_login():
     pw_receive = request.form['pw_give']
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    result = db.user.find_one({'id': id_receive, 'pw': pw_hash})
+    result = db.user.find_one({'user_id': id_receive, 'password': pw_hash})
 
     if result is not None:
         payload = {
