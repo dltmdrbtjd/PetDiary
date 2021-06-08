@@ -52,7 +52,6 @@ def api_sign_up():
 	_id = request.form['user-id']
 	_password = request.form['user-password']
 	_pw_hash = hashlib.sha256(_password.encode('utf-8')).hexdigest()
-	return jsonify({'result': 'success', 'mgs': '회원가입 성공'})
 	db.user.insert_one({'user_id': _id, 'password': _pw_hash})
 	return jsonify({'result': 'success', 'mgs': '회원가입 성공'})
 
