@@ -36,7 +36,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		async function signUp() {
+		function signUp() {
 			const data = (new FormData(document.forms[0]))
 			return fetch('/api/sign_up', {
 				method:'POST',
