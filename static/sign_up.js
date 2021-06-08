@@ -38,6 +38,13 @@
 			$checkList[4].style.color = 'green'
 			$checkList[4].firstChild.textContent = '✔'
 		}
+		// 6. No white space
+		/*
+		if (/\s/.test(password)) {
+			$checkList[5].style.color = 'green'
+			$checkList[5].firstChild.textContent = '✔'
+		}
+		*/
 
 		// Check wether valid
 		if([...$checkList].every($li => $li.firstChild.textContent === '✔')) {
