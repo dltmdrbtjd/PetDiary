@@ -12,7 +12,7 @@
 		})
 
 		// 1. At least 8 letters
-		if (password.length >= 8) {
+		if (/.{8}/.test(password)) {
 			$checkList[0].style.color = 'green'
 			$checkList[0].firstChild.textContent = '✔'
 		}
