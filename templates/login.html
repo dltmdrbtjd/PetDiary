@@ -53,6 +53,11 @@
                 }
             });
         }
+
+
+        $("#userpassword").keyup(function (e) {
+            if (e.keyCode === 13) login()
+        });
     </script>
 </head>
 <body>
@@ -71,16 +76,18 @@
         </ul>
     </div>
 </nav>
-<div id="loginForms">
-    <div class="mb-3">
-        <label class="form-label">로그인</label>
-        <input type="text" class="form-control" id="userid" placeholder="아이디를 입력해주세요.">
+<form action="">
+    <div id="loginForms">
+        <div class="mb-3">
+            <label class="form-label">로그인</label>
+            <input type="text" class="form-control" id="userid" placeholder="아이디를 입력해주세요.">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">비밀번호</label>
+            <input type="password" class="form-control" id="userpassword" placeholder="비밀번호를 입력해주세요.">
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg" onclick="sign_in()">로그인 하기</button>
     </div>
-    <div class="mb-3">
-        <label class="form-label">비밀번호</label>
-        <input type="password" class="form-control" id="userpassword" placeholder="비밀번호를 입력해주세요.">
-    </div>
-    <button type="submit" class="btn btn-primary btn-lg" onclick="sign_in()">로그인 하기</button>
-</div>
+</form>
 </body>
 </html>
