@@ -63,7 +63,8 @@ def api_login():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 def isDuplicate(_id):
-	
+	if db.user.find_one({'user_id': _id}):
+		return True
 	return False
 @app.route('/sign_up')
 def sign_up():
@@ -73,6 +74,8 @@ def sign_up():
 def api_sign_up():
 	result = request.form
 	_id = request.form['user-id']
+	if isDuplicate(_id):
+		return render_template('sign_up.html')
 	_password = request.form['user-password']
 	_pw_hash = hashlib.sha256(_password.encode('utf-8')).hexdigest()
 	db.user.insert_one({'user_id': _id, 'password': _pw_hash})
