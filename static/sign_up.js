@@ -1,6 +1,7 @@
 (function() {
+
 	const $password = document.getElementsByName('user-password')[0]
-	const $doubleCheck = document.getElementByName('double-check')[0]
+	const $doubleCheck = document.getElementsByName('double-check')[0]
 
 	function checkPassword() {
 		const password = $password.value
@@ -38,13 +39,22 @@
 			$checkList[4].style.color = 'green'
 			$checkList[4].firstChild.textContent = '✔'
 		}
+		// 6. No white space
+		if (!/\s/.test(password)) {
+			$checkList[5].style.color = 'green'
+			$checkList[5].firstChild.textContent = '✔'
+		}
+
 
 		// Check wether valid
 		if([...$checkList].every($li => $li.firstChild.textContent === '✔')) {
 			document.querySelector('#password-section > .check').style.visibility = 'visible'
 		}
 	}
-
+	function doubleCheckPassword() {
+		if ($password.value === $doubleCheck.value)
+	}
+	checkPassword()
 	$password.addEventListener('input', checkPassword)
 	$doubleCheck.addEventListener('input', doubleCheckPassword)
 })()
