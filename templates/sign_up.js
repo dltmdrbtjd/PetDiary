@@ -1,5 +1,6 @@
 (function() {
 	const $password = document.getElementsByName('user-password')[0]
+	const $doubleCheck = document.getElementByName('double-check')[0]
 
 	function checkPassword() {
 		const password = $password.value
@@ -43,5 +44,7 @@
 			document.querySelector('#password-section > .check').style.visibility = 'visible'
 		}
 	}
+
 	$password.addEventListener('input', checkPassword)
+	$doubleCheck.addEventListener('input', doubleCheckPassword)
 })()
