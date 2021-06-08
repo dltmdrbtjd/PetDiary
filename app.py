@@ -43,7 +43,6 @@ def login():
     token_expired = request.args.get("token_expired")
     return render_template('login.html', token_expired=token_expired)
 
-
 @app.route('/api/login', methods=['POST'])
 def api_login():
     id_receive = request.form['id_give']
@@ -63,6 +62,9 @@ def api_login():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
+def isDuplicate(_id):
+	
+	return False
 @app.route('/sign_up')
 def sign_up():
 	return render_template('sign_up.html')
