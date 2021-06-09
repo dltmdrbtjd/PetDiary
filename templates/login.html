@@ -21,6 +21,13 @@
             margin: 0 auto;
             margin-top: 50px;
         }
+        .signup {
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+        .signup > a {
+            text-decoration: none;
+        }
     </style>
     <script>
         function sign_in() {
@@ -67,6 +74,7 @@
         <div class="mb-3">
             <label class="form-label">비밀번호</label>
             <input type="password" class="form-control" id="userpassword" placeholder="비밀번호를 입력해주세요.">
+            <p class="signup">아직 회원이 아니신가요? <a href="/sign_up">그럼 회원가입을 먼저해주세요!</a></p>
         </div>
         <button type="submit" class="btn btn-primary btn-lg" onclick="sign_in()">로그인 하기</button>
     </div>
