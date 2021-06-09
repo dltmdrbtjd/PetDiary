@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import jwt
 import hashlib
 import datetime as dt
+from datetime import datetime
 
 app = Flask(__name__)
 client = MongoClient('localhost', 27017)
@@ -29,17 +30,8 @@ def main():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        # 전부 삭제
-        db.review.delete_many({})
-        # 2개정도 temporary data 넣어주기
-        doc1 = {'title': '타이틀1', 'content': '컨텐트1', 'create_date': 'create_date1', 'author': 'author1',
-                'file_name': 'file_name1'}
-        doc2 = {'title': '타이틀2', 'content': '컨텐트2', 'create_date': 'create_date2', 'author': 'author2',
-                'file_name': 'file_name2'}
-        db.review.insert_one(doc1)
-        db.review.insert_one(doc2)
 
-        reviews = list(db.review.find({}, {'_id': False}))
+        reviews = list(db.reviews.find({}, {'_id': False}))
         return render_template('main.html', reviews=reviews)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", token_expired="다시 로그인 해주세요."))
@@ -94,6 +86,35 @@ def api_sign_up():
     _pw_hash = hashlib.sha256(_password.encode('utf-8')).hexdigest()
     db.user.insert_one({'user_id': _id, 'password': _pw_hash})
     return jsonify({'success': True, 'msg': '로그인 페이지로 이동합니다.'})
+
+
+
+@app.route('/post')
+def post():
+    return render_template('post.html')
+
+
+@app.route('/api/diary_save', methods=['POST'])
+def save_diary():
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+
+    today = datetime.now()
+
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    author = db.user.find_one({'user_id': payload['id']})
+
+    doc = {
+        'title': title_receive,
+        'content': content_receive,
+        'date': today.strftime('%Y-%m-%d %H:%M'),
+        'author': author['user_id']
+    }
+
+    db.reviews.insert_one(doc)
+
+    return jsonify({'msg': '작성완료!'})
 
 
 if __name__ == '__main__':
