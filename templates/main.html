@@ -23,6 +23,9 @@
     <title>Pet Diary</title>
 
     <style>
+        html,body {
+            height: 100%;
+        }
         .wrap {
             width: 900px;
             margin: auto;
@@ -44,7 +47,7 @@
         function show_detail(title, content, create_date, author) {
             {#각 인수는 string type#}
 
-            let temp_html = `<div class="card mb-3 box" id="${author}" onclick = "remove_detail(${author})">
+            let temp_html = `<div class="card mb-3 box">
                                   <img class="card-img-top" src="..." alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
@@ -67,18 +70,18 @@
 
         }
 
-
-        function remove_detail(author) {
-            let string = "#" + "author"
-            $("#body").css({
-               "background-color":"white"
-            });
-            $(".cards").css({
-                "background-color":"white",
-                "pointer-events":"auto"
-            });
-            $(author).remove();
-        }
+        $(document).on("click",function(e){
+            if($("#body").is(e.target)){
+                $("#body").css({
+                   "background-color":"white"
+                });
+                $(".cards").css({
+                    "background-color":"white",
+                    "pointer-events":"auto"
+                });
+                $(".box").remove();
+            }
+        })
     </script>
 </head>
 
