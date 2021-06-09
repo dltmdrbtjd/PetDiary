@@ -19,15 +19,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <title>Pet_diary 타이틀 부분입니다.</title>
 
-    <script>
-        let reviews = {{ reviews }}
-
-            $(document).ready(function () {
-            })
-    </script>
     <style>
         .wrap {
             width: 900px;
@@ -91,30 +86,7 @@
 <!--        &lt;!&ndash;        </form>&ndash;&gt;-->
 <!--    </div>-->
 <!--</nav>-->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <a class="navbar-brand" href="/main">Pet Diary</a>
-            <li class="nav-item active">
-                <a class="nav-link" href="/diary_save">+Add Diary</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <!--            <li class="nav-item">-->
-            <!--                <a class="nav-link" href="/login" style="cursor: pointer;">로그인</a>-->
-            <!--            </li>-->
-            <!--            <li class="nav-item">-->
-            <!--                <a class="nav-link" style="cursor: pointer;">회원가입</a>-->
-            <!--            </li>-->
-            <li class="navbar-text">
-                xxx님 환영합니다.
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" style="cursor: pointer;"> 로그아웃</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+{% include 'header.html' %}
 <div class="wrap">
     <div class="card-columns">
         {% for review in reviews %}
