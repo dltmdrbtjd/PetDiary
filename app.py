@@ -24,18 +24,25 @@ def home():
 
 @app.route('/main')
 def main():
-    # 전부 삭제
-    db.review.delete_many({})
-    # 2개정도 temporary data 넣어주기
-    doc1 = {'title': '타이틀1', 'content': '컨텐트1', 'create_date': 'create_date1', 'author': 'author1',
-            'file_name': 'file_name1'}
-    doc2 = {'title': '타이틀2', 'content': '컨텐트2', 'create_date': 'create_date2', 'author': 'author2',
-            'file_name': 'file_name2'}
-    db.review.insert_one(doc1)
-    db.review.insert_one(doc2)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 전부 삭제
+        db.review.delete_many({})
+        # 2개정도 temporary data 넣어주기
+        doc1 = {'title': '타이틀1', 'content': '컨텐트1', 'create_date': 'create_date1', 'author': 'author1',
+                'file_name': 'file_name1'}
+        doc2 = {'title': '타이틀2', 'content': '컨텐트2', 'create_date': 'create_date2', 'author': 'author2',
+                'file_name': 'file_name2'}
+        db.review.insert_one(doc1)
+        db.review.insert_one(doc2)
 
-    reviews = list(db.review.find({}, {'_id': False}))
-    return render_template('main.html', reviews=reviews)
+        reviews = list(db.review.find({}, {'_id': False}))
+        return render_template('main.html', reviews=reviews)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", token_expired="다시 로그인 해주세요."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login"))
 
 
 @app.route('/login')
