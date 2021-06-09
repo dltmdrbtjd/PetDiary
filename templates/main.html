@@ -32,7 +32,42 @@
     </style>
 
     <script>
+        function show_detail(title, content, create_date, author) {
+            {#각 인수는 string type#}
+            hide_reviews();
 
+            let temp_html = `<div class="card mb-3" id="${author}" onclick = "remove_detail(${author})" style="height: 800px">
+                                  <img class="card-img-top" src="..." alt="Card image cap">
+                                      <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                        <p class="card-text">${content}</p>
+                                        <p class="card-text"><small class="text-muted">${create_date}</small></p>
+                                        <p class="card-text"><small class="text-muted">${author}</small></p>
+                                      </div>
+                                </div>
+                            </div>`
+
+            $("#html_wrap").prepend(temp_html);
+        }
+
+        function remove_detail(author) {
+            let string = "#" + "author"
+            $(author).remove();
+            show_reviews()
+        }
+
+
+        function hide_reviews() {
+            $("#html_reviews").hide();
+        }
+
+        function show_reviews() {
+            $("#html_reviews").show();
+        }
+
+        function hey(title){
+            console.log(title)
+        }
     </script>
 </head>
 
@@ -87,10 +122,11 @@
 <!--    </div>-->
 <!--</nav>-->
 {% include 'header.html' %}
-<div class="wrap">
-    <div class="card-columns">
+<div class="wrap" id="html_wrap">
+    <div class="card-columns" id="html_reviews">
         {% for review in reviews %}
-            <div class="card">
+            <div class="card" style="cursor: pointer;"
+                 onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['create_date'] }}`,`{{ review['author'] }}`)">
                 <img class="card-img-top" src="..." alt="이미지">
                 <div class="card-body">
                     <h5 class="card-title">{{ review['title'] }}</h5>
