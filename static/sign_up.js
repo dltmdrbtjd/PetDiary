@@ -1,4 +1,23 @@
-(function() {
+function signUp() {
+	const data = (new FormData(document.forms[0]))
+	return fetch('/api/sign_up', {
+		method:'POST',
+		body:data
+	}).then(response => {
+		return response.json()
+	})
+	.then(result => {
+		if (result.success) {
+			window.location.href = './login'
+		}
+		else {
+			alert('중복된 아이디입니다. 다시 작성해주세요')
+			window.location.reload()
+		}
+	})
+}
+
+document.addEventListener('DOMContentLoaded', event => {
 	const valid = Array(3).fill(false)
 	const $form = document.getElementById('login-form')
 	const $id = document.getElementsByName('user-id')[0]
@@ -69,4 +88,4 @@
 	$inputList.forEach($input => {
 		$input.addEventListener('input', validate)
 	})
-})()
+})

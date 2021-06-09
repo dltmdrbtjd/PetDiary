@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<link rel="shortcut icon" href="{{url_for('static', filename='./images/asd.ico')}}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -20,23 +20,39 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+<<<<<<< HEAD
 
     <title>Pet diary</title>
+=======
+    <title>Pet Diary</title>
+>>>>>>> 9d43acddf34a088a3b6368d56474cca2043c4a14
 
     <style>
+        html,body {
+            height: 100%;
+        }
         .wrap {
             width: 900px;
             margin: auto;
             margin-top: 80px;
+        }
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 1;
+            width: 600px;
+            height: 600px;
+            box-shadow: 7px 7px 7px rgba(0,0,0,0.25);
         }
     </style>
 
     <script>
         function show_detail(title, content, create_date, author) {
             {#각 인수는 string type#}
-            hide_reviews();
 
-            let temp_html = `<div class="card mb-3" id="${author}" onclick = "remove_detail(${author})" style="height: 800px">
+            let temp_html = `<div class="card mb-3 box">
                                   <img class="card-img-top" src="..." alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
@@ -48,30 +64,33 @@
                             </div>`
 
             $("#html_wrap").prepend(temp_html);
+            $(".cards").css({
+                "background-color":"rgba(0,0,0,0.05)",
+                "pointer-events":"none"
+            })
+            $("#body").css({
+               "background-color":"rgba(0,0,0,0.25)",
+                "z-index":"-1"
+            });
+
         }
 
-        function remove_detail(author) {
-            let string = "#" + "author"
-            $(author).remove();
-            show_reviews()
-        }
-
-
-        function hide_reviews() {
-            $("#html_reviews").hide();
-        }
-
-        function show_reviews() {
-            $("#html_reviews").show();
-        }
-
-        function hey(title){
-            console.log(title)
-        }
+        $(document).on("click",function(e){
+            if($("#body").is(e.target)){
+                $("#body").css({
+                   "background-color":"white"
+                });
+                $(".cards").css({
+                    "background-color":"white",
+                    "pointer-events":"auto"
+                });
+                $(".box").remove();
+            }
+        })
     </script>
 </head>
 
-<body>
+<body id="body">
 
 <!--<nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top">-->
 <!--    <a class="navbar-brand text-white href=" #">애견다이어리</a>-->
@@ -125,7 +144,7 @@
 <div class="wrap" id="html_wrap">
     <div class="card-columns" id="html_reviews">
         {% for review in reviews %}
-            <div class="card" style="cursor: pointer;"
+            <div class="card cards" style="cursor: pointer;"
                  onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['create_date'] }}`,`{{ review['author'] }}`)">
                 <img class="card-img-top" src="..." alt="이미지">
                 <div class="card-body">
