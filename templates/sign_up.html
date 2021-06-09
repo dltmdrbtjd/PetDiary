@@ -10,31 +10,12 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 	<link rel="stylesheet" href="{{url_for('static', filename='./sign_up.css')}}">
 </head>
 <body>
-	<script type="text/javascript">
-		function signUp() {
-			const data = (new FormData(document.forms[0]))
-			return fetch('/api/sign_up', {
-				method:'POST',
-				body:data
-			}).then(response => {
-				return response.json()
-			})
-			.then(result => {
-				if (result.success) {
-					window.location.href = './login'
-				}
-				else {
-					alert('중복된 아이디입니다. 다시 작성해주세요')
-					window.location.reload()
-				}
-			})
-		}
-	</script>
-    {% include 'header.html' %}
+	<script src="{{url_for('static', filename='./sign_up.js')}}" charset="utf-8"></script>
+	{% include 'header.html' %}
 	<form id="login-form" action="#" onsubmit="signUp();return false" method="POST">
 		<div class="mb-3">
 			<label class="form-label" for="user-id">아이디</label>
@@ -67,6 +48,5 @@
 		</div>
 		<button type="submit" class="btn btn-primary btn-lg" disabled="true">회원가입</button>
 	</form>
-	<script type="text/javascript" src="{{url_for('static', filename='./sign_up.js')}}" charset="utf-8"></script>
 </body>
 </html>
