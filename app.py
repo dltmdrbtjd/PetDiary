@@ -5,6 +5,7 @@ import jwt
 import hashlib
 import datetime as dt
 from datetime import datetime
+import os
 
 app = Flask(__name__)
 client = MongoClient('localhost', 27017)
@@ -31,7 +32,7 @@ def main():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        reviews = list(db.reviews.find({}, {'_id': False}))
+        reviews = list(db.reviews.find({}, {'_id': False}).sort("date", -1))
         return render_template('main.html', reviews=reviews)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", token_expired="다시 로그인 해주세요."))
@@ -99,7 +100,15 @@ def save_diary():
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
 
+    file = request.files["file_give"]
+
+    extension = file.filename.split('.')[-1]
+
     today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+    filename = f'file-{mytime}'
+    save_to = f'static/{filename}.{extension}'
+    file.save(save_to)
 
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -109,7 +118,8 @@ def save_diary():
         'title': title_receive,
         'content': content_receive,
         'date': today.strftime('%Y-%m-%d %H:%M'),
-        'author': author['user_id']
+        'author': author['user_id'],
+        'file': f'{filename}.{extension}'
     }
 
     db.reviews.insert_one(doc)

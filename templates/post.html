@@ -29,6 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
+
     <style>
         * {
             font-family: 'Noto Sans KR', sans-serif;
@@ -118,11 +119,21 @@
         }
     </style>
     <script>
+        $(document).ready(function () {
+            {#사진이름 나오기 2#}
+            bsCustomFileInput.init()
+        })
 
         function posting() {
             let title = $('#title').val();
             let content = $('#content').val();
 
+            let file = $('#file')[0].files[0]
+            let form_data = new FormData()
+
+            form_data.append("file_give", file)
+            form_data.append("title_give", title)
+            form_data.append("content_give", content)
             {#let form_data = new FormData()#}
             {##}
             {#form_data.append("title_give", title)#}
@@ -131,12 +142,15 @@
             $.ajax({
                 type: "POST",
                 url: "/api/diary_save",
-                data: {title_give:title, content_give:content},
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
                 success: function (response) {
                     alert(response['msg'])
                     window.location.href = '/'
                 }
-            })
+            });
         }
 
         function cancel() {
@@ -150,33 +164,41 @@
 </head>
 
 <body>
-    {% include 'header.html' %}
+{% include 'header.html' %}
 <!--    <div class="head">-->
 <!--        <div><a href="/detail" class="to_main">PetDiary</a></div>-->
 <!--        <div><a href="/log_in" class="logout">Logout</a></div>-->
 <!--        <div class="welcome">애옹쓰님 환영합니다.</div>-->
 <!--    </div>-->
-    <div class="wrap">
-        <h1>Keep a diary!</h1>
-        <div class="myimg"></div>
-        <div class="input-group mb-3 choose_file">
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="myfile">
-                <label class="custom-file-label" for="myfile">Image Upload</label>
-            </div>
-        </div>
-        <div class="form-group enter_title">
-            <input id="title" type="email" class="form-control" aria-describedby="emailHelp"
-                   placeholder="Enter Title">
-        </div>
-        <div class="input-group">
-            <textarea id="content" class="form-control content" aria-label="With textarea" placeholder="Write today's diary"></textarea>
-        </div>
-        <div class="buttons">
-            <button onclick="cancel()" type="button" class="btn btn-danger btn-cancel">Cancel</button>
-            <button onclick="posting()" type="button" class="btn btn-primary btn-post">Post</button>
+<div class="wrap">
+    <h1>Keep a diary!</h1>
+    <img class="myimg"></img>
+    <div class="input-group mb-3 choose_file">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="file">
+            <label class="custom-file-label" for="file">Image Upload</label>
         </div>
     </div>
+    <div class="form-group enter_title">
+        <input id="title" type="email" class="form-control" aria-describedby="emailHelp"
+               placeholder="Enter Title">
+    </div>
+    <div class="input-group">
+        <textarea id="content" class="form-control content" aria-label="With textarea"
+                  placeholder="Write today's diary"></textarea>
+    </div>
+    <div class="buttons">
+        <button onclick="cancel()" type="button" class="btn btn-danger btn-cancel">Cancel</button>
+        <button onclick="posting()" type="button" class="btn btn-primary btn-post">Post</button>
+    </div>
+</div>
+<script>
+    // Add the following code if you want the name of the file appear on select
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
 </body>
 
 </html>
