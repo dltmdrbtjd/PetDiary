@@ -29,14 +29,23 @@
             margin: auto;
             margin-top: 80px;
         }
+        .box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 1;
+            width: 600px;
+            height: 600px;
+            box-shadow: 7px 7px 7px rgba(0,0,0,0.25);
+        }
     </style>
 
     <script>
         function show_detail(title, content, create_date, author) {
             {#각 인수는 string type#}
-            hide_reviews();
 
-            let temp_html = `<div class="card mb-3" id="${author}" onclick = "remove_detail(${author})" style="height: 800px">
+            let temp_html = `<div class="card mb-3 box" id="${author}" onclick = "remove_detail(${author})">
                                   <img class="card-img-top" src="..." alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
@@ -48,30 +57,31 @@
                             </div>`
 
             $("#html_wrap").prepend(temp_html);
+            $(".cards").css({
+                "background-color":"rgba(0,0,0,0.05)"
+            })
+            $("#body").css({
+               "background-color":"rgba(0,0,0,0.25)",
+                "z-index":"-1"
+            });
+
         }
+
 
         function remove_detail(author) {
             let string = "#" + "author"
+            $("#body").css({
+               "background-color":"white"
+            });
+            $(".cards").css({
+                "background-color":"white"
+            });
             $(author).remove();
-            show_reviews()
-        }
-
-
-        function hide_reviews() {
-            $("#html_reviews").hide();
-        }
-
-        function show_reviews() {
-            $("#html_reviews").show();
-        }
-
-        function hey(title){
-            console.log(title)
         }
     </script>
 </head>
 
-<body>
+<body id="body">
 
 <!--<nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top">-->
 <!--    <a class="navbar-brand text-white href=" #">애견다이어리</a>-->
@@ -125,7 +135,7 @@
 <div class="wrap" id="html_wrap">
     <div class="card-columns" id="html_reviews">
         {% for review in reviews %}
-            <div class="card" style="cursor: pointer;"
+            <div class="card cards" style="cursor: pointer;"
                  onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['create_date'] }}`,`{{ review['author'] }}`)">
                 <img class="card-img-top" src="..." alt="이미지">
                 <div class="card-body">
