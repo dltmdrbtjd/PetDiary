@@ -6,13 +6,12 @@
                 {% if request.cookies.get('mytoken') is none %}
 
                 {% else %}
-                <li class="nav-item active" id="show_review_save_button_by_token">
+                <li class="nav-item active" id="diary_save_btn">
                     <a class="nav-link" href="/diary_save">+Add Diary</a>
                 </li>
                 {% endif %}
             </ul>
-            <ul class="navbar-nav" id="show_user_by_token">
-
+            <ul class="navbar-nav">
                 {% if request.cookies.get('mytoken') is none %}
                 <li class="nav-item">
                     <a class="nav-link" href="/login" style="cursor: pointer;">로그인</a>
