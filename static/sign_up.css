@@ -1,0 +1,21 @@
+.input-rules {
+	color: gray;
+}
+.check-list > li {
+	list-style: none;
+	color: red;
+}
+#login-form {
+	width: 500px;
+	margin: 100px auto;
+}
+.btn {
+	display: block;
+	margin: 50px auto;
+}
+.form-control {
+	width: 400px;
+}
+.input-rules {
+	padding: .375rem .75rem;
+}
