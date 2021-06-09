@@ -13,5 +13,6 @@ $(document).ready(function() {
 
 function logout() {
     $.removeCookie('mytoken', {path: '/'});
+    location.reload();
     window.location.href = '/login';
 }
