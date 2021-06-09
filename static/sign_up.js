@@ -17,16 +17,15 @@ function signUp() {
 	})
 }
 
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded',()  => {
 	const valid = Array(3).fill(false)
-	const $form = document.getElementById('login-form')
 	const $id = document.getElementsByName('user-id')[0]
 	const $password = document.getElementsByName('user-password')[0]
 	const $doubleCheck = document.getElementsByName('double-check')[0]
 
 	function checkId() {
 		const id = $id.value
-		valid[0] = /\s/.test(id) || id < 8 ? false : true
+		valid[0] = !(/\s/.test(id) || id < 8)
 	}
 	function checkPassword() {
 		const password = $password.value
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', event => {
 			$checkList[3].style.color = 'green'
 			$checkList[3].firstChild.textContent = '✔'
 		}
-		// 5. At leat one special character
+		// 5. At least one special character
 		if (/[^A-Za-z0-9]/.test(password)) {
 			$checkList[4].style.color = 'green'
 			$checkList[4].firstChild.textContent = '✔'
@@ -70,21 +69,20 @@ document.addEventListener('DOMContentLoaded', event => {
 			$checkList[5].firstChild.textContent = '✔'
 		}
 
-		valid[1] = [...$checkList].every($li => $li.firstChild.textContent === '✔') ? true : false
+		valid[1] = [...$checkList].every($li => $li.firstChild.textContent === '✔')
 	}
 	function doubleCheckPassword() {
-		valid[2] = $password.value === $doubleCheck.value ? true : false
+		valid[2] = $password.value === $doubleCheck.value
 	}
 	function validate() {
-		$button = document.getElementsByClassName('btn-primary')[0]
-		$button.disabled = valid.every(e => e) ? false : true
+		const $button = document.getElementsByClassName('btn-primary')[0]
+		$button.disabled = !valid.every(e => e)
 	}
 	checkPassword()
 	$id.addEventListener('input', checkId)
 	$password.addEventListener('input', checkPassword)
 	$doubleCheck.addEventListener('input', doubleCheckPassword)
-//aA123!@#
-	$inputList = document.querySelectorAll('.mb-3 input')
+	const $inputList = document.querySelectorAll('.mb-3 input')
 	$inputList.forEach($input => {
 		$input.addEventListener('input', validate)
 	})
