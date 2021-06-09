@@ -1,7 +1,14 @@
 (function() {
+	const valid = Array(3).fill(false)
+	const $form = document.getElementById('login-form')
+	const $id = document.getElementsByName('user-id')[0]
 	const $password = document.getElementsByName('user-password')[0]
-	const $doubleCheck = document.getElementByName('double-check')[0]
+	const $doubleCheck = document.getElementsByName('double-check')[0]
 
+	function checkId() {
+		const id = $id.value
+		valid[0] = /\s/.test(id) || id < 8 ? false : true
+	}
 	function checkPassword() {
 		const password = $password.value
 		const $checkList = document.querySelectorAll('.check-list > li')
@@ -38,13 +45,28 @@
 			$checkList[4].style.color = 'green'
 			$checkList[4].firstChild.textContent = '✔'
 		}
-
-		// Check wether valid
-		if([...$checkList].every($li => $li.firstChild.textContent === '✔')) {
-			document.querySelector('#password-section > .check').style.visibility = 'visible'
+		// 6. No white space
+		if (!/\s/.test(password)) {
+			$checkList[5].style.color = 'green'
+			$checkList[5].firstChild.textContent = '✔'
 		}
-	}
 
+		valid[1] = [...$checkList].every($li => $li.firstChild.textContent === '✔') ? true : false
+	}
+	function doubleCheckPassword() {
+		valid[2] = $password.value === $doubleCheck.value ? true : false
+	}
+	function validate() {
+		$button = document.getElementsByClassName('btn-primary')[0]
+		$button.disabled = valid.every(e => e) ? false : true
+	}
+	checkPassword()
+	$id.addEventListener('input', checkId)
 	$password.addEventListener('input', checkPassword)
 	$doubleCheck.addEventListener('input', doubleCheckPassword)
+//aA123!@#
+	$inputList = document.querySelectorAll('.mb-3 input')
+	$inputList.forEach($input => {
+		$input.addEventListener('input', validate)
+	})
 })()
