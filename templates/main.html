@@ -44,7 +44,7 @@
     </style>
 
     <script>
-        function show_detail(title, content, create_date, author) {
+        function show_detail(title, content, date, author) {
             {#각 인수는 string type#}
 
             let temp_html = `<div class="card mb-3 box">
@@ -52,7 +52,7 @@
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
                                         <p class="card-text">${content}</p>
-                                        <p class="card-text"><small class="text-muted">${create_date}</small></p>
+                                        <p class="card-text"><small class="text-muted">${date}</small></p>
                                         <p class="card-text"><small class="text-muted">${author}</small></p>
                                       </div>
                                 </div>
@@ -140,12 +140,12 @@
     <div class="card-columns" id="html_reviews">
         {% for review in reviews %}
             <div class="card cards" style="cursor: pointer;"
-                 onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['create_date'] }}`,`{{ review['author'] }}`)">
+                 onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`)">
                 <img class="card-img-top" src="..." alt="이미지">
                 <div class="card-body">
                     <h5 class="card-title">{{ review['title'] }}</h5>
                     <p class="card-text">{{ review['content'] }}</p>
-                    <p class="card-text"><small class="text-muted">{{ review['create_date'] }}</small></p>
+                    <p class="card-text"><small class="text-muted">{{ review['date'] }}</small></p>
                     <p class="card-text"><small class="text-muted">{{ review['author'] }}</small></p>
                 </div>
             </div>
