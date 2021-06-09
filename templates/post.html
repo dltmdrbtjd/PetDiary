@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>Pet Diary - 로그인</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .myimg {
+            width: 600px;
+            height: 600px;
+            border: 1px solid black;
+            margin: 20px auto 20px auto;
+        }
+
+        .wrap {
+            width: 600px;
+            height: auto;
+
+            margin: 50px auto 50px auto;
+        }
+
+        h1 {
+            text-align: center;
+
+            text-decoration: none;
+            border: indianred solid;
+            border-width: 0 0 6px 0;
+        }
+
+        .content {
+            height: 180px;
+        }
+
+        .btn-cancel {
+            width: 200px;
+            height: 50px;
+            margin: 30px 20px auto 20px;
+        }
+
+        .btn-post {
+            width: 200px;
+            height: 50px;
+            margin: 30px 20px auto 20px;
+        }
+
+        .buttons {
+            text-align: center;
+            margin: auto;
+        }
+
+        .head {
+            display: inline-block;
+            width: 100%;
+            padding: 30px;
+
+            font-size: 17px;
+
+            background: linear-gradient(90deg, #DAE2F8, #D6A4A4);
+
+            border-radius: 0 0 20px 20px;
+        }
+
+        .welcome {
+            float: right;
+            color: #283048;
+        }
+
+        .logout {
+            float: right;
+            margin: 0px 10px 0px 10px;
+            text-decoration-line: none;
+            color: #283048;
+        }
+
+        .to_main {
+            float: left;
+            margin: 0px 0px 0px 10px;
+            text-decoration-line: none;
+            color: #283048;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: #CC95C0;
+        }
+    </style>
+    <script>
+
+        function posting() {
+            let title = $('#title').val();
+            let content = $('#content').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/diary_save",
+                data: {title_give:title,content_give:content},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.href = '/main'
+                }
+            })
+        }
+
+        function cancel() {
+            alert('작성취소!');
+            window.location.href = '/'
+        }
+
+        function logout() {
+            alert('로그아웃!');
+            window.location.href = '/login'
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+    {% include 'header.html' %}
+<!--    <div class="head">-->
+<!--        <div><a href="/detail" class="to_main">PetDiary</a></div>-->
+<!--        <div><a href="/log_in" class="logout">Logout</a></div>-->
+<!--        <div class="welcome">애옹쓰님 환영합니다.</div>-->
+<!--    </div>-->
+    <div class="wrap">
+        <h1>Keep a diary!</h1>
+        <div class="myimg"></div>
+        <div class="input-group mb-3 choose_file">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="myfile">
+                <label class="custom-file-label" for="myfile">Image Upload</label>
+            </div>
+        </div>
+        <div class="form-group enter_title">
+            <input id="title" type="email" class="form-control" aria-describedby="emailHelp"
+                   placeholder="Enter Title">
+        </div>
+        <div class="input-group">
+            <textarea id="content" class="form-control content" aria-label="With textarea" placeholder="Write today's diary"></textarea>
+        </div>
+        <div class="buttons">
+            <button onclick="cancel()" type="button" class="btn btn-danger btn-cancel">Cancel</button>
+            <button onclick="posting()" type="button" class="btn btn-primary btn-post">Post</button>
+        </div>
+    </div>
+</body>
+
+</html>
