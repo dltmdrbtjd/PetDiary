@@ -23,7 +23,19 @@ function signUp() {
 	})
 }
 
-document.addEventListener('DOMContentLoaded',()  => {
+const throttle = (callback, delay) => {
+	let timerId
+	return event => {
+		if (timerId) return
+		timerId = setTimeout(() => {
+			callback(event)
+			timerId = null
+		}, delay, event)
+	}
+}
+
+function validateInput() {
+
 	const valid = Array(3).fill(false)
 	const $id = document.getElementsByName('user-id')[0]
 	const $password = document.getElementsByName('user-password')[0]
@@ -92,4 +104,6 @@ document.addEventListener('DOMContentLoaded',()  => {
 	$inputList.forEach($input => {
 		$input.addEventListener('input', validate)
 	})
-})
+}
+
+document.addEventListener('DOMContentLoaded', throttle(validateInput, 1000))
