@@ -1,9 +1,13 @@
 function signUp() {
+	// Fetch sign up data to server. Called when clicked "회원 가입" button.
+
+	// Wrap all the input data in the form to a FormData object.
 	const data = (new FormData(document.forms[0]))
 	return fetch('/api/sign_up', {
 		method:'POST',
 		body:data
 	}).then(response => {
+		// After submitting the data, the client receives the response whether sign up is valid.
 		return response.json()
 	})
 	.then(result => {
@@ -11,6 +15,7 @@ function signUp() {
 			window.location.href = './login'
 		}
 		else {
+			// Case where the same user-id is stored in the db.
 			alert('중복된 아이디입니다. 다시 작성해주세요')
 			window.location.reload()
 		}
