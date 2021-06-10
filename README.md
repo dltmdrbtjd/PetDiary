@@ -16,5 +16,11 @@
 - github 주소 : https://github.com/dltmdrbtjd/PetDiary
 - 소개 : 자신의 애완동물 및 반려동물에 관한 일기를 작성하고 서로 공유하고 읽을수있는 커뮤니티 사이트
 
-## 설계
+## Project 설계
 https://velog.io/@dltmdrbsla14/%ED%95%AD%ED%95%B499-%EB%AF%B8%EB%8B%88-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8
+
+## 웹 사이트
+http://petdiary.shop
+
+## 사이트 시연 영상
+https://www.youtube.com/watch?v=tJbWw84_GBM
