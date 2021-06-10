@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 
 <head>
@@ -92,7 +92,7 @@
                                         <p class="card-text"><small class="text-muted">닉네임 : ${author}</small></p>
                                       </div>
                                        <div class="buttons">
-                                           <button type="button" class="btn btn-danger btn-cancel">삭제하기</button>
+                                           <button type="button" class="btn btn-danger btn-cancel" onclick="_delete('${author}', '${_id}')">삭제하기</button>
                                            <button type="button" class="btn btn-primary btn-post">수정하기</button>
                                        </div>
                                 </div>`
@@ -126,59 +126,41 @@
                 $(".box").remove();
             }
         })
+
+        function _delete(author, _id) {
+            let token_give = $.cookie('mytoken')
+
+            $.ajax({
+                type: "POST",
+                url: "/api/valid_to_delete",
+                data: {id_give: author , token_give : token_give},
+                success: function (response) {
+                    if (response['result'] == 'success' && response['is_authorized'] == 'True') {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/delete_by__id",
+                            data: {_id_give: _id},
+                            success: function (response) {
+                                alert(response['msg'])
+                            }
+                        })
+
+                        window.location.href = '/'
+                    } else if (response['result'] == 'success' && response['is_authorized'] == 'False') {
+
+                        alert('권한이 없습니다.')
+                    } else{
+                    }
+                }
+            })
+
+        }
     </script>
+
+
 </head>
 
 <body id="body">
-
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-secondary fixed-top">-->
-<!--    <a class="navbar-brand text-white href=" #">애견다이어리</a>-->
-<!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
-<!--            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--        <span class="navbar-toggler-icon"></span>-->
-<!--    </button>-->
-
-<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--        <ul class="navbar-nav mr-auto">-->
-<!--            &lt;!&ndash;            <li class="nav-item active">&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </li>&ndash;&gt;-->
-<!--            <li class="nav-item">-->
-<!--                <a class="nav-link" href="#">+일기작성</a>-->
-<!--            </li>-->
-<!--            &lt;!&ndash;            <li class="nav-item dropdown">&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"&ndash;&gt;-->
-<!--            &lt;!&ndash;                   data-toggle="dropdown"&ndash;&gt;-->
-<!--            &lt;!&ndash;                   aria-haspopup="true" aria-expanded="false">&ndash;&gt;-->
-<!--            &lt;!&ndash;                    Dropdown&ndash;&gt;-->
-<!--            &lt;!&ndash;                </a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                <div class="dropdown-menu" aria-labelledby="navbarDropdown">&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <a class="dropdown-item" href="#">Action</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <a class="dropdown-item" href="#">Another action</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <div class="dropdown-divider"></div>&ndash;&gt;-->
-<!--            &lt;!&ndash;                    <a class="dropdown-item" href="#">Something else here</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;                </div>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </li>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <li class="nav-item">&ndash;&gt;-->
-<!--            &lt;!&ndash;                <a class="nav-link disabled" href="#">Disabled</a>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </li>&ndash;&gt;-->
-<!--        </ul>-->
-<!--        <div class="form-inline">-->
-<!--        <span class="navbar-text navbar-right">-->
-<!--            xxx님 환영합니다.-->
-<!--        </span>-->
-<!--            <ul class="navbar-nav mr-auto navbar-right">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">로그아웃</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--        &lt;!&ndash;        <form class="form-inline my-2 my-lg-0">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">&ndash;&gt;-->
-<!--        &lt;!&ndash;            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </form>&ndash;&gt;-->
-<!--    </div>-->
-<!--</nav>-->
 {% include 'header.html' %}
 <div class="wrap" id="html_wrap">
     <div class="row" id="html_reviews" class="flex">

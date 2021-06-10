@@ -5,6 +5,7 @@ import jwt
 import hashlib
 import datetime as dt
 from datetime import datetime
+from bson.objectid import ObjectId
 import os
 
 app = Flask(__name__)
@@ -137,6 +138,46 @@ def save_diary():
     db.reviews.insert_one(doc)
 
     return jsonify({'msg': '작성완료!'})
+
+
+@app.route('/api/valid_to_delete', methods=['POST'])
+def api_valid():
+
+    token_receive = request.form['token_give']
+    author_receive = request.form['id_give']
+
+    try:
+        # token을 시크릿키로 디코딩합니다.
+        # 보실 수 있도록 payload를 print 해두었습니다. 우리가 로그인 시 넣은 그 payload와 같은 것이 나옵니다.
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
+        # 여기에선 그 예로 닉네임을 보내주겠습니다.
+        if payload['id'] == author_receive:
+
+            return jsonify({'result': 'success', 'is_authorized': 'True'})
+        else:
+            return jsonify({'result': 'success', 'is_authorized': 'False'})
+        # userinfo = db.user.find_one({'id': payload['id']}, {'_id': 0})
+        # return jsonify({'result': 'success', 'nickname': userinfo['nick']})
+    except jwt.ExpiredSignatureError:
+        # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
+        return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+
+@app.route('/api/delete_by__id', methods=['POST'])
+def api_delete():
+
+    _id_receive = request.form['_id_give']
+
+    file_name = db.reviews.find_one({'_id': ObjectId(_id_receive)})['file']
+    os.remove('static/'+file_name)
+    db.reviews.delete_one({'_id': ObjectId(_id_receive)})
+
+    return jsonify({'msg': '삭제 완료'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
