@@ -1,23 +1,41 @@
 function signUp() {
+	// Fetch sign up data to server. Called when clicked "회원 가입" button.
+
+	// Wrap all the input data in the form to a FormData object.
 	const data = (new FormData(document.forms[0]))
 	return fetch('/api/sign_up', {
 		method:'POST',
 		body:data
 	}).then(response => {
+		// After submitting the data, the client receives the response whether sign up is valid.
 		return response.json()
 	})
 	.then(result => {
 		if (result.success) {
+			alert('회원가입을 환영합니다.\n로그인 페이지로 이동합니다.')
 			window.location.href = './login'
 		}
 		else {
+			// Case where the same user-id is stored in the db.
 			alert('중복된 아이디입니다. 다시 작성해주세요')
 			window.location.reload()
 		}
 	})
 }
 
-document.addEventListener('DOMContentLoaded',()  => {
+const throttle = (callback, delay) => {
+	let timerId
+	return event => {
+		if (timerId) return
+		timerId = setTimeout(() => {
+			callback(event)
+			timerId = null
+		}, delay, event)
+	}
+}
+
+function validateInput() {
+
 	const valid = Array(3).fill(false)
 	const $id = document.getElementsByName('user-id')[0]
 	const $password = document.getElementsByName('user-password')[0]
@@ -86,4 +104,6 @@ document.addEventListener('DOMContentLoaded',()  => {
 	$inputList.forEach($input => {
 		$input.addEventListener('input', validate)
 	})
-})
+}
+
+document.addEventListener('DOMContentLoaded', throttle(validateInput, 1000))
