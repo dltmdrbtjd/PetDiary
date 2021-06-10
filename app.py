@@ -32,7 +32,7 @@ def main():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        reviews = list(db.reviews.find({}, {'_id': False}).sort("date", -1))
+        reviews = list(db.reviews.find({}).sort("date", -1))
         return render_template('main.html', reviews=reviews)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login"))
