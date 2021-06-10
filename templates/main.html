@@ -77,7 +77,7 @@
                     if (response['dec'] === author) {
                         buttons = `
                                        <div class="buttons">
-                                           <button type="button" class="btn btn-danger btn-cancel">삭제하기</button>
+                                           <button type="button" onclick="_delete('${author}', '${_id}')" class="btn btn-danger btn-cancel">삭제하기</button>
                                        </div>`;
                     }
                     ;
@@ -106,6 +106,35 @@
                     });
                 }
             })
+        }
+
+        function _delete(author, _id) {
+            let token_give = $.cookie('mytoken')
+
+            $.ajax({
+                type: "POST",
+                url: "/api/valid_to_delete",
+                data: {id_give: author , token_give : token_give},
+                success: function (response) {
+                    if (response['result'] == 'success' && response['is_authorized'] == 'True') {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/delete_by__id",
+                            data: {_id_give: _id},
+                            success: function (response) {
+                                alert(response['msg'])
+                            }
+                        })
+
+                        window.location.href = '/'
+                    } else if (response['result'] == 'success' && response['is_authorized'] == 'False') {
+
+                        alert('권한이 없습니다.')
+                    } else{
+                    }
+                }
+            })
+
         }
 
 
