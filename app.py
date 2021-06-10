@@ -21,7 +21,7 @@ def home():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         return redirect("main")
     except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", token_expired="로그인 시간이 만료되었습니다."))
+        return redirect(url_for("login"))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login"))
 
@@ -35,15 +35,14 @@ def main():
         reviews = list(db.reviews.find({}, {'_id': False}).sort("date", -1))
         return render_template('main.html', reviews=reviews)
     except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", token_expired="다시 로그인 해주세요."))
+        return redirect(url_for("login"))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login"))
 
 
 @app.route('/login')
 def login():
-    token_expired = request.args.get("token_expired")
-    return render_template('login.html', token_expired=token_expired)
+    return render_template('login.html')
 
 
 @app.route('/api/login', methods=['POST'])
