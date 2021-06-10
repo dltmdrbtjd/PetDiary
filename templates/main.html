@@ -57,7 +57,7 @@
             {#각 인수는 string type#}
 
             let temp_html = `<div class="card mb-3 box">
-                                  <img class="card-img-top" src="../static/${file}" alt="Card image cap">
+                                  <img class="card-img-top" src="../static/images/${file}" alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
                                         <p class="card-text">${content}</p>
@@ -76,7 +76,6 @@
                 "background-color": "rgba(0,0,0,0.25)",
                 "z-index": "-1"
             });
-
         }
 
         $(document).on("click", function (e) {
@@ -149,7 +148,7 @@
     <div class="row" id="html_reviews" class="flex">
         {% for review in reviews %}
             <div class="col-sm-4">
-                <div class="card" style="cursor: pointer;"
+                <div class="card cards" style="cursor: pointer;"
                      onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`)">
                     <img class="card-img-top" src="../static/{{ review['file'] }}" alt="이미지">
                     <div class="card-body">
