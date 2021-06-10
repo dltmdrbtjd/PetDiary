@@ -45,14 +45,17 @@
             width: 600px;
             box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.25);
         }
+
         .card {
             margin-top: 50px;
         }
+
         .card-img-top {
             border-bottom: 1px solid #c4c4c4;
         }
+
         .buttons {
-            margin:0 auto;
+            margin: 0 auto;
             margin-bottom: 50px;
         }
     </style>
@@ -61,6 +64,25 @@
         function show_detail(title, content, date, author, file, _id) {
             {#각 인수는 string type#}
 
+            function isAuthor(author) {
+                const token = $.cookie('mytoken');
+                $.ajax({
+                    type: "POST",
+                    url: "/api/check",
+                    data: {
+                        token_give: token,
+                        author_give: author
+                    },
+                    success: function (response) {
+                        if (response['result'] === 'success') {
+                            console.log(resopnse['msg'])
+                        } else {
+                            console.log(response['msg'])
+                        }
+                    }
+                })
+            }
+            isAuthor();
             let temp_html = `<div class="card mb-3 box">
                                   <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                       <div class="card-body">
@@ -81,7 +103,7 @@
                 "pointer-events": "none"
             })
             $(".card-img").css({
-               "opacity":"0.5"
+                "opacity": "0.5"
             });
             $("#body").css({
                 "background-color": "rgba(0,0,0,0.25)",
@@ -98,9 +120,9 @@
                     "background-color": "white",
                     "pointer-events": "auto"
                 });
-            $(".card-img").css({
-               "opacity":"1"
-            });
+                $(".card-img").css({
+                    "opacity": "1"
+                });
                 $(".box").remove();
             }
         })
@@ -163,7 +185,7 @@
         {% for review in reviews %}
             <div class="col-sm-4">
                 <div class="card cards" style="cursor: pointer;"
-                     onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`, `{{ review['_id']}}`)">
+                     onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`, `{{ review['_id'] }}`)">
                     <img class="card-img-top card-img" src="../static/{{ review['file'] }}" alt="이미지">
                     <div class="card-body">
                         <h5 class="card-title">제목 : {{ review['title'] }}</h5>
