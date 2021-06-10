@@ -62,28 +62,26 @@
 
     <script>
         function show_detail(title, content, date, author, file, _id) {
-            {#각 인수는 string type#}
+            const save = [title,content,date,author,file,_id]
+            localStorage.setItem('save',JSON.stringify(save))
 
-            function isAuthor(author) {
-                const token = $.cookie('mytoken');
-                $.ajax({
-                    type: "POST",
-                    url: "/api/check",
-                    data: {
-                        token_give: token,
-                        author_give: author
-                    },
-                    success: function (response) {
-                        if (response['result'] === 'success') {
-                            console.log(resopnse['msg'])
-                        } else {
-                            console.log(response['msg'])
-                        }
+            let token = $.cookie('mytoken');
+            $.ajax({
+                type: "POST",
+                url: "/api/check",
+                data: {
+                    token_give: token
+                },
+                success: function (response) {
+                    let buttons = "";
+                    if (response['dec'] === author) {
+                        buttons = `
+                                       <div class="buttons">
+                                           <button type="button" class="btn btn-danger btn-cancel">삭제하기</button>
+                                       </div>`;
                     }
-                })
-            }
-            isAuthor();
-            let temp_html = `<div class="card mb-3 box">
+                    ;
+                    let temp_html = `<div class="card mb-3 box">
                                   <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">제목 : ${title}</h5>
@@ -91,25 +89,25 @@
                                         <p class="card-text"><small class="text-muted">작성일자 : ${date}</small></p>
                                         <p class="card-text"><small class="text-muted">닉네임 : ${author}</small></p>
                                       </div>
-                                       <div class="buttons">
-                                           <button type="button" class="btn btn-danger btn-cancel">삭제하기</button>
-                                           <button type="button" class="btn btn-primary btn-post">수정하기</button>
-                                       </div>
+                                      ${buttons}
                                 </div>`
 
-            $("#html_wrap").prepend(temp_html);
-            $(".cards").css({
-                "background-color": "rgba(0,0,0,0.05)",
-                "pointer-events": "none"
+                    $("#html_wrap").prepend(temp_html);
+                    $(".cards").css({
+                        "background-color": "rgba(0,0,0,0.05)",
+                        "pointer-events": "none"
+                    })
+                    $(".card-img").css({
+                        "opacity": "0.5"
+                    });
+                    $("#body").css({
+                        "background-color": "rgba(0,0,0,0.25)",
+                        "z-index": "-1"
+                    });
+                }
             })
-            $(".card-img").css({
-                "opacity": "0.5"
-            });
-            $("#body").css({
-                "background-color": "rgba(0,0,0,0.25)",
-                "z-index": "-1"
-            });
         }
+
 
         $(document).on("click", function (e) {
             if ($("#body").is(e.target)) {
