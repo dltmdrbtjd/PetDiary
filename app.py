@@ -107,7 +107,7 @@ def save_diary():
     today = datetime.now()
     mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
     filename = f'file-{mytime}'
-    save_to = f'static/{filename}.{extension}'
+    save_to = f'static/images/{filename}.{extension}'
     file.save(save_to)
 
     token_receive = request.cookies.get('mytoken')
@@ -119,7 +119,7 @@ def save_diary():
         'content': content_receive,
         'date': today.strftime('%Y-%m-%d %H:%M'),
         'author': author['user_id'],
-        'file': f'{filename}.{extension}'
+        'file': f'images/{filename}.{extension}'
     }
 
     db.reviews.insert_one(doc)
