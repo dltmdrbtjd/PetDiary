@@ -59,7 +59,7 @@
     </style>
 
     <script>
-        function show_detail(title, content, date, author, file) {
+        function show_detail(title, content, date, author, file, _id) {
             {#각 인수는 string type#}
 
             let temp_html = `<div class="card mb-3 box">
@@ -162,9 +162,9 @@
 <div class="wrap" id="html_wrap">
     <div class="row" id="html_reviews" class="flex">
         {% for review in reviews %}
-            <div class="col-sm-4" data-id="{{ review['_id']}}">
+            <div class="col-sm-4">
                 <div class="card cards" style="cursor: pointer;"
-                     onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`)">
+                     onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`, `{{ review['_id']}}`)">
                     <img class="card-img-top card-img" src="../static/{{ review['file'] }}" alt="이미지">
                     <div class="card-body">
                         <h5 class="card-title">제목 : {{ review['title'] }}</h5>
