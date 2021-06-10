@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="shortcut icon" href="{{url_for('static', filename='./images/asd.ico')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='./images/asd.ico') }}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -20,35 +20,43 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    <title>Pet Diary</title>
+
+
+    <title>Pet diary</title>
+
 
     <style>
-        html,body {
+        html, body {
             height: 100%;
         }
+
         .wrap {
             width: 900px;
             margin: auto;
             margin-top: 80px;
         }
+
         .box {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(-50%, -50%);
             z-index: 1;
             width: 600px;
             height: 600px;
-            box-shadow: 7px 7px 7px rgba(0,0,0,0.25);
+            box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.25);
+        }
+
+        .flex {
         }
     </style>
 
     <script>
-        function show_detail(title, content, date, author) {
+        function show_detail(title, content, date, author, file) {
             {#각 인수는 string type#}
 
             let temp_html = `<div class="card mb-3 box">
-                                  <img class="card-img-top" src="..." alt="Card image cap">
+                                  <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                       <div class="card-body">
                                         <h5 class="card-title">${title}</h5>
                                         <p class="card-text">${content}</p>
@@ -60,24 +68,24 @@
 
             $("#html_wrap").prepend(temp_html);
             $(".cards").css({
-                "background-color":"rgba(0,0,0,0.05)",
-                "pointer-events":"none"
+                "background-color": "rgba(0,0,0,0.05)",
+                "pointer-events": "none"
             })
             $("#body").css({
-               "background-color":"rgba(0,0,0,0.25)",
-                "z-index":"-1"
+                "background-color": "rgba(0,0,0,0.25)",
+                "z-index": "-1"
             });
 
         }
 
-        $(document).on("click",function(e){
-            if($("#body").is(e.target)){
+        $(document).on("click", function (e) {
+            if ($("#body").is(e.target)) {
                 $("#body").css({
-                   "background-color":"white"
+                    "background-color": "white"
                 });
                 $(".cards").css({
-                    "background-color":"white",
-                    "pointer-events":"auto"
+                    "background-color": "white",
+                    "pointer-events": "auto"
                 });
                 $(".box").remove();
             }
@@ -137,16 +145,18 @@
 <!--</nav>-->
 {% include 'header.html' %}
 <div class="wrap" id="html_wrap">
-    <div class="card-columns" id="html_reviews">
+    <div class="row" id="html_reviews" class="flex">
         {% for review in reviews %}
-            <div class="card cards" style="cursor: pointer;"
-                 onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`)">
-                <img class="card-img-top" src="..." alt="이미지">
-                <div class="card-body">
-                    <h5 class="card-title">{{ review['title'] }}</h5>
-                    <p class="card-text">{{ review['content'] }}</p>
-                    <p class="card-text"><small class="text-muted">{{ review['date'] }}</small></p>
-                    <p class="card-text"><small class="text-muted">{{ review['author'] }}</small></p>
+            <div class="col-sm-4">
+                <div class="card" style="cursor: pointer;"
+                     onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`)">
+                    <img class="card-img-top" src="../static/{{ review['file'] }}" alt="이미지">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ review['title'] }}</h5>
+                        <p class="card-text">{{ review['content'] }}</p>
+                        <p class="card-text"><small class="text-muted">{{ review['date'] }}</small></p>
+                        <p class="card-text"><small class="text-muted">{{ review['author'] }}</small></p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
