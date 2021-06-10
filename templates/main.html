@@ -49,7 +49,9 @@
         .card {
             margin-top: 50px;
         }
-
+        .card-img-top {
+            border-bottom: 1px solid #c4c4c4;
+        }
     </style>
 
     <script>
@@ -57,12 +59,12 @@
             {#각 인수는 string type#}
 
             let temp_html = `<div class="card mb-3 box">
-                                  <img class="card-img-top" src="../static/images/${file}" alt="Card image cap">
+                                  <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                       <div class="card-body">
-                                        <h5 class="card-title">${title}</h5>
-                                        <p class="card-text">${content}</p>
-                                        <p class="card-text"><small class="text-muted">${date}</small></p>
-                                        <p class="card-text"><small class="text-muted">${author}</small></p>
+                                        <h5 class="card-title">제목 : ${title}</h5>
+                                        <p class="card-text">내용 : ${content}</p>
+                                        <p class="card-text"><small class="text-muted">작성일자 : ${date}</small></p>
+                                        <p class="card-text"><small class="text-muted">닉네임 : ${author}</small></p>
                                       </div>
                                 </div>
                             </div>`
@@ -72,6 +74,9 @@
                 "background-color": "rgba(0,0,0,0.05)",
                 "pointer-events": "none"
             })
+            $(".card-img").css({
+               "opacity":"0.5"
+            });
             $("#body").css({
                 "background-color": "rgba(0,0,0,0.25)",
                 "z-index": "-1"
@@ -87,6 +92,9 @@
                     "background-color": "white",
                     "pointer-events": "auto"
                 });
+            $(".card-img").css({
+               "opacity":"1"
+            });
                 $(".box").remove();
             }
         })
@@ -150,12 +158,12 @@
             <div class="col-sm-4">
                 <div class="card cards" style="cursor: pointer;"
                      onclick="show_detail(`{{ review['title'] }}`,`{{ review['content'] }}`,`{{ review['date'] }}`,`{{ review['author'] }}`, `{{ review['file'] }}`)">
-                    <img class="card-img-top" src="../static/{{ review['file'] }}" alt="이미지">
+                    <img class="card-img-top card-img" src="../static/{{ review['file'] }}" alt="이미지">
                     <div class="card-body">
-                        <h5 class="card-title">{{ review['title'] }}</h5>
-                        <p class="card-text">{{ review['content'] }}</p>
-                        <p class="card-text"><small class="text-muted">{{ review['date'] }}</small></p>
-                        <p class="card-text"><small class="text-muted">{{ review['author'] }}</small></p>
+                        <h5 class="card-title">제목 : {{ review['title'] }}</h5>
+                        <p class="card-text">내용 : {{ review['content'] }}</p>
+                        <p class="card-text"><small class="text-muted">작성일자 : {{ review['date'] }}</small></p>
+                        <p class="card-text"><small class="text-muted">닉네임 : {{ review['author'] }}</small></p>
                     </div>
                 </div>
             </div>
