@@ -52,6 +52,10 @@
         .card-img-top {
             border-bottom: 1px solid #c4c4c4;
         }
+        .buttons {
+            margin:0 auto;
+            margin-bottom: 50px;
+        }
     </style>
 
     <script>
@@ -66,8 +70,11 @@
                                         <p class="card-text"><small class="text-muted">작성일자 : ${date}</small></p>
                                         <p class="card-text"><small class="text-muted">닉네임 : ${author}</small></p>
                                       </div>
-                                </div>
-                            </div>`
+                                       <div class="buttons">
+                                           <button type="button" class="btn btn-danger btn-cancel">삭제하기</button>
+                                           <button type="button" class="btn btn-primary btn-post">수정하기</button>
+                                       </div>
+                                </div>`
 
             $("#html_wrap").prepend(temp_html);
             $(".cards").css({
