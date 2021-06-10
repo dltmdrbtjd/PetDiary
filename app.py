@@ -87,20 +87,18 @@ def api_sign_up():
     db.user.insert_one({'user_id': _id, 'password': _pw_hash})
     return jsonify({'success': True, 'msg': '로그인 페이지로 이동합니다.'})
 
-@app.route('/api/diary_check', methods=['POST'])
+@app.route('/api/check', methods=['POST'])
 def diary_check():
-    token_receive = request.form['token_give']['id']
-    author_receive = request.form['author_give']
+    token_receive = request.form['token_give']
+    # author_receive = request.form['author_give']
 
-    payload_receive = jwt.decode(token_receive,SECRET_KEY,algorithms='HS256')
-    payload_encoded = jwt.encode(payload_receive,SECRET_KEY,algorithm='HS256')
+    decode_receive = jwt.decode(token_receive,SECRET_KEY,algorithms='HS256')
 
-    author_token = payload_receive['id']
-
-    if author_token == author_receive and token_receive == payload_encoded:
-        return jsonify({'result':'success', 'msg':'ㅎㅇㅎㅇ'}, payload_encoded=payload_encoded)
-    else:
-        return jsonify({'result':'fail', 'msg':'ㄴㄴ'})
+    return jsonify({'dec':decode_receive['id']})
+    # if decode_receive['id'] == author_receive:
+    #     return jsonify({'result':'success', 'msg':'ㅎㅇㅎㅇ'})
+    # else:
+    #     return jsonify({'result':'fail', 'msg':'ㄴㄴ', 'dec':decode_receive['id']})
 
 @app.route('/post')
 def post():
@@ -112,12 +110,12 @@ def save_diary():
     title_receive = request.form['title_give']
     content_receive = request.form['content_give']
 
+    today = datetime.now()
+    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
     file = request.files["file_give"]
 
     extension = file.filename.split('.')[-1]
-
-    today = datetime.now()
-    mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
     filename = f'file-{mytime}'
     save_to = f'static/images/{filename}.{extension}'
     file.save(save_to)
@@ -137,6 +135,7 @@ def save_diary():
     db.reviews.insert_one(doc)
 
     return jsonify({'msg': '작성완료!'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
