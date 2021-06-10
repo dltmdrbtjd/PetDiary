@@ -123,6 +123,9 @@
         }
     </style>
     <script>
+        const editsave = JSON.parse(localStorage.getItem('save'))
+        console.log(editsave)
+
         $(document).ready(function () {
             {#사진이름 나오기 2#}
             bsCustomFileInput.init()
@@ -202,8 +205,8 @@
                   placeholder="Write today's diary"></textarea>
     </div>
     <div class="buttons">
-        <button onclick="cancel()" type="button" class="btn btn-danger btn-cancel">Cancel</button>
-        <button onclick="posting()" type="button" class="btn btn-primary btn-post">Post</button>
+        <button onclick="cancel()" type="button" class="btn btn-danger btn-cancel">취소</button>
+        <button onclick="posting()" type="button" class="btn btn-primary btn-post">작성</button>
     </div>
 </div>
 <script>
