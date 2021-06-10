@@ -12,6 +12,7 @@ function signUp() {
 	})
 	.then(result => {
 		if (result.success) {
+			alert('회원가입을 환영합니다.\n로그인 페이지로 이동합니다.')
 			window.location.href = './login'
 		}
 		else {
