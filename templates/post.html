@@ -35,11 +35,15 @@
             font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .myimg {
+        #myimg {
             width: 600px;
-            height: 600px;
             border: 1px solid black;
             margin: 20px auto 20px auto;
+            box-sizing: border-box;
+        }
+
+        #myimg img {
+            width: 100%;
         }
 
         .wrap {
@@ -157,6 +161,15 @@
             window.location.href = '/'
         }
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
     </script>
 
 
@@ -171,9 +184,12 @@
 <!--    </div>-->
 <div class="wrap">
     <h1>Keep a diary!</h1>
+    <div id="myimg">
+        <img src="../static/images/normal.png" id="img" alt="이미지">
+    </div>
     <div class="input-group mb-3 choose_file">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="file">
+            <input type="file" class="custom-file-input" id="file" onchange="readURL(this)">
             <label class="custom-file-label" for="file">Image Upload</label>
         </div>
     </div>
