@@ -88,6 +88,20 @@ def api_sign_up():
     db.user.insert_one({'user_id': _id, 'password': _pw_hash})
     return jsonify({'success': True, 'msg': '로그인 페이지로 이동합니다.'})
 
+@app.route('/api/diary_check', methods=['POST'])
+def diary_check():
+    token_receive = request.form['token_give']['id']
+    author_receive = request.form['author_give']
+
+    payload_receive = jwt.decode(token_receive,SECRET_KEY,algorithms='HS256')
+    payload_encoded = jwt.encode(payload_receive,SECRET_KEY,algorithm='HS256')
+
+    author_token = payload_receive['id']
+
+    if author_token == author_receive and token_receive == payload_encoded:
+        return jsonify({'result':'success', 'msg':'ㅎㅇㅎㅇ'}, payload_encoded=payload_encoded)
+    else:
+        return jsonify({'result':'fail', 'msg':'ㄴㄴ'})
 
 @app.route('/post')
 def post():

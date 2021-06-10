@@ -43,7 +43,6 @@
             transform: translate(-50%, -50%);
             z-index: 1;
             width: 600px;
-            height: 600px;
             box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.25);
         }
 
@@ -62,13 +61,28 @@
     </style>
 
     <script>
-        $(document).ready(function () {
-            {#사진이름 나오기 2#}
-            {#console.log("{{ reviews[0]['_id']}}")#}
-        })
-
         function show_detail(title, content, date, author, file, _id) {
             {#각 인수는 string type#}
+
+            function isAuthor(author) {
+                const token = $.cookie('mytoken');
+                $.ajax({
+                    type: "POST",
+                    url: "/api/check",
+                    data: {
+                        token_give: token,
+                        author_give: author
+                    },
+                    success: function (response) {
+                        if (response['result'] === 'success') {
+                            console.log(resopnse['msg'])
+                        } else {
+                            console.log(response['msg'])
+                        }
+                    }
+                })
+            }
+            isAuthor();
             let temp_html = `<div class="card mb-3 box">
                                   <img class="card-img-top" src="../static/${file}" alt="Card image cap">
                                       <div class="card-body">
@@ -84,7 +98,6 @@
                                 </div>`
 
             $("#html_wrap").prepend(temp_html);
-            {#console.log('아아아아')#}
             $(".cards").css({
                 "background-color": "rgba(0,0,0,0.05)",
                 "pointer-events": "none"
