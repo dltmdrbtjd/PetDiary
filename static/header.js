@@ -1,8 +1,4 @@
 $(document).ready(function() {
-    const url_string = window.location.search;
-    if(url_string.includes('token_expired')){
-        $('#diary_save_btn').empty()
-    }
 
     let token = $.cookie('mytoken');
     if (token !== undefined){
